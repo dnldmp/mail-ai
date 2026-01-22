@@ -115,7 +115,9 @@ export function CategoryBreakdown({ categoryCounts }: { categoryCounts: Category
           {categoryCounts.map((cat) => {
             const Icon = categoryIcons[cat.category] || Mail;
             const color = categoryColors[cat.category] || 'text-gray-500';
-            const percentage = cat.count > 0 ? (cat.unreadCount / cat.count) * 100 : 0;
+            // Calculate percentage of read emails (processed)
+            const readCount = cat.count - cat.unreadCount;
+            const readPercentage = cat.count > 0 ? (readCount / cat.count) * 100 : 0;
 
             return (
               <div key={cat.category} className="flex items-center">
@@ -132,7 +134,7 @@ export function CategoryBreakdown({ categoryCounts }: { categoryCounts: Category
                   <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-blue-500 rounded-full"
-                      style={{ width: `${100 - percentage}%` }}
+                      style={{ width: `${readPercentage}%` }}
                     />
                   </div>
                 </div>

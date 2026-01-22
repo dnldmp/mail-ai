@@ -39,9 +39,9 @@ export async function GET(request: NextRequest) {
     };
 
     if (category) where.category = category;
-    if (isRead !== null) where.isRead = isRead === 'true';
-    if (isStarred !== null) where.isStarred = isStarred === 'true';
-    if (isArchived !== null) where.isArchived = isArchived === 'true';
+    if (isRead !== null && isRead !== undefined) where.isRead = isRead === 'true';
+    if (isStarred !== null && isStarred !== undefined) where.isStarred = isStarred === 'true';
+    if (isArchived !== null && isArchived !== undefined) where.isArchived = isArchived === 'true';
     if (search) {
       where.OR = [
         { subject: { contains: search, mode: 'insensitive' } },

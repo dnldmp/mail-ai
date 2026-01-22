@@ -69,13 +69,17 @@ export function parseGmailMessage(message: GmailMessage) {
   const getHeader = (name: string) => 
     headers.find(h => h.name.toLowerCase() === name.toLowerCase())?.value || '';
 
+  // Helper to decode base64 email content
+  const decodeBase64 = (data: string): string => 
+    Buffer.from(data, 'base64').toString('utf-8');
+
   let body = '';
   if (message.payload.body?.data) {
-    body = Buffer.from(message.payload.body.data, 'base64').toString('utf-8');
+    body = decodeBase64(message.payload.body.data);
   } else if (message.payload.parts) {
     const textPart = message.payload.parts.find(p => p.mimeType === 'text/plain');
     if (textPart?.body?.data) {
-      body = Buffer.from(textPart.body.data, 'base64').toString('utf-8');
+      body = decodeBase64(textPart.body.data);
     }
   }
 

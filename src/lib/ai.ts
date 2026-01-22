@@ -1,4 +1,8 @@
 import OpenAI from 'openai';
+import { EmailCategory } from '@/types';
+
+// Configuration constants
+const MAX_EMAIL_BODY_LENGTH = 1000;
 
 // Lazy initialization of OpenAI client
 let openaiClient: OpenAI | null = null;
@@ -14,15 +18,6 @@ function getOpenAIClient(): OpenAI | null {
   }
   return openaiClient;
 }
-
-export type EmailCategory = 
-  | 'IMPORTANT'
-  | 'PROMOTIONAL'
-  | 'PERSONAL'
-  | 'SPAM'
-  | 'SOCIAL'
-  | 'UPDATES'
-  | 'UNCATEGORIZED';
 
 interface ClassificationResult {
   category: EmailCategory;
@@ -63,7 +58,7 @@ export async function classifyEmail(
         },
         {
           role: 'user',
-          content: `From: ${from}\nSubject: ${subject}\n\nBody:\n${body.slice(0, 1000)}`,
+          content: `From: ${from}\nSubject: ${subject}\n\nBody:\n${body.slice(0, MAX_EMAIL_BODY_LENGTH)}`,
         },
       ],
       response_format: { type: 'json_object' },
@@ -126,7 +121,7 @@ export async function generateSuggestedReply(
         },
         {
           role: 'user',
-          content: `From: ${from}\nSubject: ${subject}\n\nBody:\n${body.slice(0, 1000)}`,
+          content: `From: ${from}\nSubject: ${subject}\n\nBody:\n${body.slice(0, MAX_EMAIL_BODY_LENGTH)}`,
         },
       ],
       max_tokens: 150,

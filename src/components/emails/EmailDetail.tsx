@@ -4,7 +4,7 @@ import { Email } from '@/types';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { formatDate } from '@/lib/utils';
+import { formatDate, cn } from '@/lib/utils';
 import { 
   ArrowLeft, 
   Star, 
@@ -53,7 +53,7 @@ export function EmailDetail({ email, onToggleStar, onArchive }: EmailDetailProps
             onClick={() => onToggleStar(!email.isStarred)}
           >
             <Star
-              className={`h-5 w-5 ${email.isStarred ? 'text-yellow-500 fill-yellow-500' : ''}`}
+              className={cn('h-5 w-5', email.isStarred && 'text-yellow-500 fill-yellow-500')}
             />
           </Button>
           <Button variant="ghost" size="icon" onClick={onArchive}>
